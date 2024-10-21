@@ -17,8 +17,8 @@ export const useFetchRadioStations = (): RadioStationsData => {
   useEffect(() => {
     const loadStations = async () => {
       try {
-        const data = await fetchRadioStations()
-        setStations(data)
+        const response = await fetchRadioStations()
+        setStations(response.data)
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message)
