@@ -6,10 +6,10 @@ import { PlayerButton } from './shared/player-button'
 
 type StationListItemProps = {
   station: RadioStation
-  onClickHandler: (stationId: RadioStation) => Promise<void>
+  onStationSelected: (stationId: RadioStation) => Promise<void>
 }
 
-export const StationListItem = ({ station, onClickHandler }: StationListItemProps) => {
+export const StationListItem = ({ station, onStationSelected }: StationListItemProps) => {
   return (
     <li className="flex gap-x-12 items-center w-auto">
       <span className="flex items-start overflow-x-hidden grow">
@@ -20,7 +20,7 @@ export const StationListItem = ({ station, onClickHandler }: StationListItemProp
       </span>
 
       <span className="w-3 flex justify-end overflow-visible">
-        <PlayerButton ariaLabel="play radio" onClickHandler={() => onClickHandler(station)}>
+        <PlayerButton ariaLabel="play radio" onClickHandler={() => onStationSelected(station)}>
           <FaPlayCircle
             className="text-2xl"
             data-tooltip-id={`${station.name}-play-action`}
