@@ -5,6 +5,7 @@ import { IoRadioOutline } from 'react-icons/io5'
 import { AudioPlayer } from '../core/audio-player'
 import { RadioStation } from '../models/radio-station'
 import { PlayerButton } from './shared/player-button'
+import { toast } from 'react-toastify'
 
 type PlayerComponentProps = {
   selected: RadioStation | null
@@ -29,9 +30,23 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
     }
   }
 
+  const handleError = (error: string) => {
+    toast.error(`Cannot play ${selected?.name}: ${error}`, { autoClose: 2000 })
+
+    setIsPlaying(false)
+  }
+
+  const handleSuccess = () => {
+    toast.success(`Now playing ${selected?.name}`)
+  }
+
   useEffect(() => {
     if (selected) {
-      audioPlayerRef.current = new AudioPlayer(selected.streamUrl)
+      audioPlayerRef.current = new AudioPlayer({
+        stationUrl: selected.streamUrl,
+        errorCallback: handleError,
+        successCallback: handleSuccess,
+      })
       audioPlayerRef.current.play()
 
       setIsPlaying(audioPlayerRef.current?.isPlaying())

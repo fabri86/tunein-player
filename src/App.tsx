@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import './App.css'
 
 import { useFetchRadioStations } from './hooks/use-get-radio-station'
 import { Loader } from './components/shared/loader'
