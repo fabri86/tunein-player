@@ -59,6 +59,7 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
         audioPlayerRef.current = null
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected])
 
   return (
@@ -71,6 +72,15 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
         <span className="px-2 py-0.5 rounded-md border border-dashed border-white bg-blue-500 text-lg md:text-xl w-full my-1 md:my-2 font-semibold text-center">
           {selected.name}
         </span>
+      )}
+
+      {selected?.description && (
+        <div
+          key={animationKey}
+          className="overflow-hidden whitespace-nowrap w-full mt-1.5 text-sm md:text-md"
+        >
+          <div className="inline-block animate-marquee">{selected?.description}</div>
+        </div>
       )}
 
       {selected && (
@@ -93,15 +103,6 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
             </PlayerButton>
           )}
         </span>
-      )}
-
-      {selected?.description && (
-        <div
-          key={animationKey}
-          className="overflow-hidden whitespace-nowrap w-full mt-2.5 text-sm md:text-md"
-        >
-          <div className="inline-block animate-marquee">{selected?.description}</div>
-        </div>
       )}
 
       {isPlaying && (
