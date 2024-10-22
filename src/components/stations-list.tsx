@@ -32,10 +32,14 @@ export const StationsList = ({ stations, onStationSelected, selected }: Stations
         ))}
       </ul>
 
-      <div role="checkbox" className="flex justify-end gap-x-3 my-3">
-        <label className="text-sm md:text-md">
-          <input type="checkbox" onClick={() => setShowRating((prevValue) => !prevValue)}></input>
-          <span className="ml-2">Show ratings info</span>
+      <div className="flex justify-end gap-x-3 my-3 items-center">
+        <label className="flex items-center text-sm md:text-md">
+          <span className="mr-2 hover:cursor-pointer">Show ratings info</span>
+          <input
+            className="hover:cursor-pointer"
+            type="checkbox"
+            onClick={() => setShowRating((prevValue) => !prevValue)}
+          />
         </label>
       </div>
     </>
