@@ -27,3 +27,10 @@ Fabrizio
 # PS Special thanks to ..
 
 Special thanks to my wife for testing the app and giving me (silently) some extra thoughts on how to make the app more user-friendly
+
+# How to run
+
+Please after cloning, simply:
+
+- yarn
+- yarn dev
