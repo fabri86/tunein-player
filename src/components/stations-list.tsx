@@ -4,14 +4,13 @@ import { StationListItem } from './station-list-item'
 
 type StationsListProps = {
   stations: RadioStation[]
+  selected: RadioStation | null
   onStationSelected: (selected: RadioStation) => void
 }
 
-export const StationsList = ({ stations, onStationSelected }: StationsListProps) => {
+export const StationsList = ({ stations, onStationSelected, selected }: StationsListProps) => {
   const onStationSelectedHandler = useCallback(
     async (station: RadioStation) => {
-      alert(`You selected radio ${station.name}`)
-
       onStationSelected(station)
     },
     [onStationSelected]
@@ -23,6 +22,7 @@ export const StationsList = ({ stations, onStationSelected }: StationsListProps)
         <StationListItem
           key={station.id}
           station={station}
+          isSelected={station.id === selected?.id}
           onStationSelected={onStationSelectedHandler}
         />
       ))}

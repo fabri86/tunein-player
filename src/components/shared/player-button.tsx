@@ -7,7 +7,11 @@ type PlayerButtonProps = {
 export const PlayerButton = ({ children: icon, ariaLabel, onClickHandler }: PlayerButtonProps) => {
   return (
     <>
-      <button aria-label={ariaLabel} onClick={onClickHandler}>
+      <button
+        className="outline-none focus:outline-none"
+        aria-label={ariaLabel}
+        onClick={onClickHandler}
+      >
         {icon}
       </button>
     </>
