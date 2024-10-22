@@ -6,6 +6,9 @@ export default {
       animation: {
         marquee: 'marquee 20s linear infinite',
       },
+      colors: {
+        highlighted: '#86efac', // text-green-300
+      },
       keyframes: {
         marquee: {
           '0%': { transform: 'translateX(100%)' },

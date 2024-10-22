@@ -8,13 +8,13 @@ import { RadioStation } from './models/radio-station'
 import { PlayerComponent } from './components/player-component'
 import { GenrePills } from './components/genre-pills'
 import { getGenresFromTags } from './helper/genres-helper'
-import { FaRadio } from 'react-icons/fa6'
+import { TuneInHeading } from './components/tune-in-heading'
 
 const App = () => {
   const { stations, isLoading, error } = useFetchRadioStations()
   const genres = useMemo(() => getGenresFromTags(stations), [stations])
 
-  const [selectedRadio, setSelectedRadio] = useState<RadioStation | null>(stations[0])
+  const [selectedRadio, setSelectedRadio] = useState<RadioStation | null>(null)
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null)
 
   const filteredStations = useMemo(() => {
@@ -24,7 +24,7 @@ const App = () => {
 
     return !selectedGenre
       ? stations
-      : stations.filter((station) => station.tags.some((tag) => tag === selectedGenre))
+      : stations.filter((station) => station.tags.includes(selectedGenre))
   }, [stations, selectedGenre])
 
   const handleGenrePillSelection = (selected: string) => {
@@ -37,11 +37,7 @@ const App = () => {
 
   return (
     <div className="flex flex-col items-center gap-y-1 p-4 md:p-6 lg:p-8">
-      <div className="w-68 relative">
-        <h1 className="text-4xl text-blue-300">Tunein Radio</h1>
-        <FaRadio className="absolute text-sm top-0 -right-3 text-blue-300" />
-        <p className="text-xs mt-0 text-end">by fabri86</p>
-      </div>
+      <TuneInHeading />
 
       {error ? (
         <ErrorTile error={error} />

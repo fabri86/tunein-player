@@ -16,8 +16,10 @@ export const GenrePills = ({ genres, selectedGenre, handleGenreSelection }: Genr
   return (
     <div className="my-3 text-sm md:text-base">
       <p className="my-2 ml-2">Toggle tags to filter radio stations</p>
+
       {genres.map((genre: string) => (
         <button
+          aria-label={`toggle ${genre} pill`}
           key={`${genre}-pill`}
           className={getPillClasses(genre)}
           onClick={() => handleGenreSelection(genre)}

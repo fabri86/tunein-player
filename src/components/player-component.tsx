@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { FaPauseCircle, FaPlayCircle } from 'react-icons/fa'
 import { IoRadioOutline } from 'react-icons/io5'
+import { toast } from 'react-toastify'
 
 import { AudioPlayer } from '../core/audio-player'
 import { RadioStation } from '../models/radio-station'
 import { PlayerButton } from './shared/player-button'
-import { toast } from 'react-toastify'
 
-const HINT_MESSAGE = 'Please choose a radio from the list and hit play'
+import { PlayerStationInfoSection } from './player-info-section'
+
+const RESET_THRESHOLD = 1000000
 
 type PlayerComponentProps = {
   selected: RadioStation | null
@@ -15,6 +17,7 @@ type PlayerComponentProps = {
 
 export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
   const audioPlayerRef = useRef<AudioPlayer | null>(null)
+
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [animationKey, setAnimationKey] = useState<number>(0)
 
@@ -32,15 +35,18 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
     }
   }
 
-  const handleError = (error: string) => {
-    toast.error(`Cannot play ${selected?.name}: ${error}`, { autoClose: 2000 })
+  const handleError = useCallback(
+    (error: string) => {
+      toast.error(`Cannot play ${selected?.name}: ${error}`, { autoClose: 2000 })
 
-    setIsPlaying(false)
-  }
+      setIsPlaying(false)
+    },
+    [selected]
+  )
 
-  const handleSuccess = () => {
+  const handleSuccess = useCallback(() => {
     toast.success(`Now playing ${selected?.name}`)
-  }
+  }, [selected])
 
   useEffect(() => {
     if (selected) {
@@ -49,10 +55,11 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
         errorCallback: handleError,
         successCallback: handleSuccess,
       })
+
       audioPlayerRef.current.play()
 
       setIsPlaying(audioPlayerRef.current?.isPlaying())
-      setAnimationKey((prevValue) => prevValue + 1)
+      setAnimationKey((prevKey) => (prevKey >= RESET_THRESHOLD ? 0 : prevKey + 1))
     }
 
     return () => {
@@ -61,29 +68,11 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
         audioPlayerRef.current = null
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected])
+  }, [selected, handleError, handleSuccess])
 
   return (
     <div className="relative p-3 bg-gray-800 border border-gray-500 flex flex-col items-center rounded-md mt-4 md:mt-0 mb-4 min-h-48 h-auto justify-between">
-      <p className="text-sm my-0.5 md:text-base md:my-1">
-        {selected ? `You are listening to` : `No radio selected`}
-      </p>
-
-      <>
-        <span className="px-2 py-0.5 rounded-md border border-dashed border-white bg-blue-400 text-lg md:text-xl w-full my-1 md:my-2 font-semibold text-center">
-          {selected?.name ?? '-'}
-        </span>
-
-        <div
-          key={animationKey}
-          className="overflow-hidden whitespace-nowrap w-full mt-1.5 text-sm md:text-md"
-        >
-          <div className="inline-block animate-marquee">
-            {selected?.description ?? HINT_MESSAGE}
-          </div>
-        </div>
-      </>
+      <PlayerStationInfoSection selected={selected} animationKey={animationKey} />
 
       <span className="mt-2 md:mt-4">
         {!isPlaying ? (
@@ -93,8 +82,8 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
             isDisabled={!selected}
           >
             <FaPlayCircle
-              className={`text-4xl ${
-                selected ? 'text-green-300 hover:scale-110' : 'text-gray-400'
+              className={`text-4xl  ${
+                selected ? 'hover:scale-110 hover:text-highlighted' : 'text-gray-400'
               }`}
               data-tooltip-id="player-play-btn"
               data-tooltip-content="Play"
@@ -108,7 +97,7 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
           >
             <FaPauseCircle
               className={`text-4xl ${
-                selected ? 'text-green-300 hover:scale-110' : 'text-gray-400'
+                selected ? 'hover:scale-110 hover:text-highlighted' : 'text-gray-400'
               }`}
               data-tooltip-id="player-pause-btn"
               data-tooltip-content="Pause"
@@ -117,7 +106,7 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
         )}
       </span>
 
-      {isPlaying && (
+      {selected && isPlaying && (
         <div className="absolute top-3 right-3 animate-pulse">
           <IoRadioOutline className="text-white text-lg md:text-xl" />
         </div>

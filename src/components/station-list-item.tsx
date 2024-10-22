@@ -22,12 +22,12 @@ export const StationListItem = ({
   const stationNameClasses = cx(
     'ml-3 text-start overflow-x-hidden text-ellipsis text-nowrap whitespace-nowrap',
     {
-      'text-green-300 underline': isSelected,
+      'text-highlighted underline': isSelected,
     }
   )
 
   const playIconClasses = cx('text-2xl focus:outline-none hover:text-green-500 hover:scale-125', {
-    'text-green-300 animate-pulse': isSelected,
+    'text-highlighted animate-pulse': isSelected,
   })
 
   return (
