@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { FaPauseCircle, FaPlayCircle } from 'react-icons/fa'
+import { IoRadioOutline } from 'react-icons/io5'
 
 import { AudioPlayer } from '../core/audio-player'
 import { RadioStation } from '../models/radio-station'
@@ -46,13 +47,13 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
   }, [selected])
 
   return (
-    <div className="border border-gray-800 p-3 bg-gray-500 flex flex-col justify-center items-center rounded-md">
+    <div className="relative p-3 bg-gray-800 border border-gray-500 flex flex-col items-center rounded-md mt-4 md:mt-0 mb-4 justify-start">
       <p className="text-md my-0.5 md:text-base md:my-1">
         {selected ? `You are listening to` : `No radio selected`}
       </p>
 
       {selected && (
-        <span className="px-4 md:px-6 py-0.5 rounded-md bg-blue-500 text-lg md:text-xl w-full md:w-1/2 my-1 md:my-2 font-semibold">
+        <span className="px-2 py-0.5 rounded-md border border-dashed border-white bg-blue-500 text-lg md:text-xl w-full my-1 md:my-2 font-semibold">
           {selected.name}
         </span>
       )}
@@ -80,8 +81,14 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
       )}
 
       {selected?.description && (
-        <div key={animationKey} className="overflow-hidden whitespace-nowrap w-full my-2">
+        <div key={animationKey} className="overflow-hidden whitespace-nowrap w-full my-2.5">
           <div className="inline-block animate-marquee">{selected?.description}</div>
+        </div>
+      )}
+
+      {isPlaying && (
+        <div className="absolute top-2 right-2 animate-pulse">
+          <IoRadioOutline className="text-white" />
         </div>
       )}
     </div>
