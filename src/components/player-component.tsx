@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Tooltip } from 'react-tooltip'
 import { FaPauseCircle, FaPlayCircle } from 'react-icons/fa'
+import { IoVolumeMute } from 'react-icons/io5'
+import { VscUnmute } from 'react-icons/vsc'
+
 import { IoRadioOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 
@@ -19,6 +23,7 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
   const audioPlayerRef = useRef<AudioPlayer | null>(null)
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [isMuted, setIsMuted] = useState<boolean>(false)
   const [animationKey, setAnimationKey] = useState<number>(0)
 
   const handlePlayPause = () => {
@@ -47,6 +52,13 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
   const handleSuccess = useCallback(() => {
     toast.success(`Now playing ${selected?.name}`)
   }, [selected])
+
+  const handleToggleMute = useCallback(() => {
+    if (audioPlayerRef.current) {
+      const newValue = audioPlayerRef.current.toggleMute()
+      setIsMuted(newValue)
+    }
+  }, [audioPlayerRef])
 
   useEffect(() => {
     if (selected) {
@@ -82,7 +94,7 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
             isDisabled={!selected}
           >
             <FaPlayCircle
-              className={`text-4xl  ${
+              className={`text-4xl focus:outline-none ${
                 selected ? 'hover:scale-110 hover:text-highlighted' : 'text-gray-400'
               }`}
               data-tooltip-id="player-play-btn"
@@ -96,7 +108,7 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
             isDisabled={!selected}
           >
             <FaPauseCircle
-              className={`text-4xl ${
+              className={`text-4xl focus:outline-none ${
                 selected ? 'hover:scale-110 hover:text-highlighted' : 'text-gray-400'
               }`}
               data-tooltip-id="player-pause-btn"
@@ -104,6 +116,39 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
             />
           </PlayerButton>
         )}
+
+        {isPlaying && (
+          <div className="absolute bottom-0 right-4">
+            <PlayerButton
+              ariaLabel="player mute button"
+              onClickHandler={() => selected && handleToggleMute()}
+              isDisabled={!selected}
+            >
+              {isMuted ? (
+                <VscUnmute
+                  className={`text-2xl focus:outline-none ${
+                    selected ? 'hover:scale-110 hover:text-highlighted' : 'text-gray-400'
+                  }`}
+                  data-tooltip-id="player-unmute-btn"
+                  data-tooltip-content="Unmute"
+                />
+              ) : (
+                <IoVolumeMute
+                  className={`text-2xl focus:outline-none ${
+                    selected ? 'hover:scale-110 hover:text-highlighted' : 'text-gray-400'
+                  }`}
+                  data-tooltip-id="player-mute-btn"
+                  data-tooltip-content="Mute"
+                />
+              )}
+            </PlayerButton>
+          </div>
+        )}
+
+        <Tooltip id="player-pause-btn" place="right" />
+        <Tooltip id="player-play-btn" place="right" />
+        <Tooltip id="player-mute-btn" place="right" />
+        <Tooltip id="player-unmute-btn" place="right" />
       </span>
 
       {selected && isPlaying && (

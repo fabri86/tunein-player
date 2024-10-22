@@ -30,6 +30,11 @@ export class AudioPlayer {
     return !this.audio.paused
   }
 
+  toggleMute(): boolean {
+    this.audio.muted = !this.audio.muted
+    return this.audio.muted
+  }
+
   dispose(): void {
     this.pause()
     this.audio.src = ''
