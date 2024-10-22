@@ -20,7 +20,7 @@ export const StationsList = ({ stations, onStationSelected, selected }: Stations
 
   return (
     <>
-      <ul className="border border-gray-500 rounded-md px-2 md:px-6 py-4 md:py-6 flex flex-col overflow-y-auto h-80 gap-y-6 md:gap-y-3">
+      <ul className="border border-gray-500 rounded-md px-3 md:px-6 py-4 md:py-6 flex flex-col overflow-y-auto h-80 gap-y-6 md:gap-y-3">
         {stations.map((station: RadioStation) => (
           <StationListItem
             key={station.id}

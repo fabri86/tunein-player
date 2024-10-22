@@ -26,12 +26,12 @@ export const StationListItem = ({
     }
   )
 
-  const playIconClasses = cx('text-2xl focus:outline-none hover:text-green-500', {
+  const playIconClasses = cx('text-2xl focus:outline-none hover:text-green-500 hover:scale-125', {
     'text-green-300 animate-pulse': isSelected,
   })
 
   return (
-    <li className="flex gap-x-12 items-center w-auto">
+    <li className="flex gap-x-12 items-center w-auto scale">
       <span className="items-start overflow-x-hidden grow">
         <span className="flex my-1.5">
           <img className="rounded-full h-6 w-6" src={station.imgUrl} alt={`${station.name} logo`} />

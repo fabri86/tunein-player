@@ -7,6 +7,8 @@ import { RadioStation } from '../models/radio-station'
 import { PlayerButton } from './shared/player-button'
 import { toast } from 'react-toastify'
 
+const HINT_MESSAGE = 'Please choose a radio from the list and hit play'
+
 type PlayerComponentProps = {
   selected: RadioStation | null
 }
@@ -63,51 +65,61 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
   }, [selected])
 
   return (
-    <div className="relative p-3 bg-gray-800 border border-gray-500 flex flex-col items-center rounded-md mt-4 md:mt-0 mb-4 justify-start">
+    <div className="relative p-3 bg-gray-800 border border-gray-500 flex flex-col items-center rounded-md mt-4 md:mt-0 mb-4 min-h-48 h-auto justify-between">
       <p className="text-sm my-0.5 md:text-base md:my-1">
         {selected ? `You are listening to` : `No radio selected`}
       </p>
 
-      {selected && (
-        <span className="px-2 py-0.5 rounded-md border border-dashed border-white bg-blue-500 text-lg md:text-xl w-full my-1 md:my-2 font-semibold text-center">
-          {selected.name}
+      <>
+        <span className="px-2 py-0.5 rounded-md border border-dashed border-white bg-blue-400 text-lg md:text-xl w-full my-1 md:my-2 font-semibold text-center">
+          {selected?.name ?? '-'}
         </span>
-      )}
 
-      {selected?.description && (
         <div
           key={animationKey}
           className="overflow-hidden whitespace-nowrap w-full mt-1.5 text-sm md:text-md"
         >
-          <div className="inline-block animate-marquee">{selected?.description}</div>
+          <div className="inline-block animate-marquee">
+            {selected?.description ?? HINT_MESSAGE}
+          </div>
         </div>
-      )}
+      </>
 
-      {selected && (
-        <span className="mt-2 md:mt-4">
-          {!isPlaying ? (
-            <PlayerButton ariaLabel="player play button" onClickHandler={handlePlayPause}>
-              <FaPlayCircle
-                className="text-4xl text-green-300"
-                data-tooltip-id="player-play-btn"
-                data-tooltip-content="Play"
-              />
-            </PlayerButton>
-          ) : (
-            <PlayerButton ariaLabel="player pause button" onClickHandler={handlePlayPause}>
-              <FaPauseCircle
-                className="text-4xl text-green-300"
-                data-tooltip-id="player-pause-btn"
-                data-tooltip-content="Pause"
-              />
-            </PlayerButton>
-          )}
-        </span>
-      )}
+      <span className="mt-2 md:mt-4">
+        {!isPlaying ? (
+          <PlayerButton
+            ariaLabel="player play button"
+            onClickHandler={() => selected && handlePlayPause()}
+            isDisabled={!selected}
+          >
+            <FaPlayCircle
+              className={`text-4xl ${
+                selected ? 'text-green-300 hover:scale-110' : 'text-gray-400'
+              }`}
+              data-tooltip-id="player-play-btn"
+              data-tooltip-content="Play"
+            />
+          </PlayerButton>
+        ) : (
+          <PlayerButton
+            ariaLabel="player pause button"
+            onClickHandler={() => selected && handlePlayPause()}
+            isDisabled={!selected}
+          >
+            <FaPauseCircle
+              className={`text-4xl ${
+                selected ? 'text-green-300 hover:scale-110' : 'text-gray-400'
+              }`}
+              data-tooltip-id="player-pause-btn"
+              data-tooltip-content="Pause"
+            />
+          </PlayerButton>
+        )}
+      </span>
 
       {isPlaying && (
-        <div className="absolute top-2 right-2 animate-pulse">
-          <IoRadioOutline className="text-white" />
+        <div className="absolute top-3 right-3 animate-pulse">
+          <IoRadioOutline className="text-white text-lg md:text-xl" />
         </div>
       )}
     </div>
