@@ -6,9 +6,9 @@ import { ErrorTile } from './components/shared/error-tile'
 import { StationsList } from './components/stations-list'
 import { RadioStation } from './models/radio-station'
 import { PlayerComponent } from './components/player-component'
-import { GenrePills } from './components/genre-pills'
+import { GenresPills } from './components/genres-pills'
 import { getGenresFromTags } from './helper/genres-helper'
-import { TuneInHeading } from './components/tune-in-heading'
+import { TuneInHeading } from './components/shared/tune-in-heading'
 
 const App = () => {
   const { stations, isLoading, error } = useFetchRadioStations()
@@ -46,7 +46,7 @@ const App = () => {
           <div className="w-full md:w-1/2">
             <PlayerComponent selected={selectedRadio} />
 
-            <GenrePills
+            <GenresPills
               genres={genres}
               selectedGenre={selectedGenre}
               handleGenreSelection={handleGenrePillSelection}

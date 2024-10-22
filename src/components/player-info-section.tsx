@@ -1,5 +1,5 @@
 import { RadioStation } from '../models/radio-station'
-import TEXT from '../text'
+import TEXT from '../constants/text'
 
 type PlayerStationInfoSectionProps = {
   selected: RadioStation | null

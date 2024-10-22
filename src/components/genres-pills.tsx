@@ -1,12 +1,12 @@
 import cx from 'classnames'
 
-type GenrePillsProps = {
+type GenresPillsProps = {
   genres: string[]
   selectedGenre: string | null
   handleGenreSelection: (selected: string) => void
 }
 
-export const GenrePills = ({ genres, selectedGenre, handleGenreSelection }: GenrePillsProps) => {
+export const GenresPills = ({ genres, selectedGenre, handleGenreSelection }: GenresPillsProps) => {
   const getPillClasses = (genre: string) =>
     cx('m-0.5 px-2 py-1.5 rounded-full hover:scale-105', {
       'bg-pink-500 text-white scale-100': selectedGenre === genre,
