@@ -48,12 +48,12 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
 
   return (
     <div className="relative p-3 bg-gray-800 border border-gray-500 flex flex-col items-center rounded-md mt-4 md:mt-0 mb-4 justify-start">
-      <p className="text-md my-0.5 md:text-base md:my-1">
+      <p className="text-sm my-0.5 md:text-base md:my-1">
         {selected ? `You are listening to` : `No radio selected`}
       </p>
 
       {selected && (
-        <span className="px-2 py-0.5 rounded-md border border-dashed border-white bg-blue-500 text-lg md:text-xl w-full my-1 md:my-2 font-semibold">
+        <span className="px-2 py-0.5 rounded-md border border-dashed border-white bg-blue-500 text-lg md:text-xl w-full my-1 md:my-2 font-semibold text-center">
           {selected.name}
         </span>
       )}
@@ -81,7 +81,10 @@ export const PlayerComponent = ({ selected }: PlayerComponentProps) => {
       )}
 
       {selected?.description && (
-        <div key={animationKey} className="overflow-hidden whitespace-nowrap w-full my-2.5">
+        <div
+          key={animationKey}
+          className="overflow-hidden whitespace-nowrap w-full mt-2.5 text-sm md:text-md"
+        >
           <div className="inline-block animate-marquee">{selected?.description}</div>
         </div>
       )}

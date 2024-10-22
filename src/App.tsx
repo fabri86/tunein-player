@@ -37,7 +37,7 @@ const App = () => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-y-1">
+    <div className="flex flex-col items-center gap-y-1 p-4 md:p-6 lg:p-8">
       <div className="w-68 relative">
         <h1 className="text-4xl text-blue-300">Tunein Radio</h1>
         <FaRadio className="absolute text-sm top-0 -right-3 text-blue-300" />
@@ -47,7 +47,7 @@ const App = () => {
       {error ? (
         <ErrorTile error={error} />
       ) : (
-        <div className="flex flex-col md:flex-row md:gap-x-20 w-full md:my-16 lg:my-24">
+        <div className="flex flex-col md:flex-row md:gap-x-10 w-full md:my-16 lg:my-24">
           <div className="w-full md:w-1/2">
             <PlayerComponent selected={selectedRadio} />
 
@@ -61,7 +61,7 @@ const App = () => {
           {isLoading ? (
             <Loader title="Loading radio stations" />
           ) : (
-            <div className="w-full md:w-1/2 justify-start">
+            <div className="w-full md:w-1/2 h-20 md:h-60 lg:h-auto justify-start">
               <StationsList
                 stations={filteredStations}
                 selected={selectedRadio}
